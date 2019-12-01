@@ -6,9 +6,7 @@
 using namespace std;
 
 int main()
-{	
-	srand(time(NULL));
-	
+{
 	int n;
 	cin >> n;
 	
@@ -19,16 +17,13 @@ int main()
 	{
 		cin >> name[i];
 	}
-	cout << n;
-	
 
 	for(int j=0; j<n; j++)
 	{
 		cin >> heroclass[j];
-		cout <<j<<endl;
 	}
 
-	cout << n;
+	srand(time(NULL));
 
 	for(int i=0; i<n; i++)
 	{
@@ -38,7 +33,7 @@ int main()
 		{
 			x=rand()%n;
 		}
-		while(heroclass[x]!="0");
+		while(heroclass[x]=="0");
 		
 		cout <<heroclass[x]<<endl;
 		heroclass[x]="0";

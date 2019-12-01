@@ -1,49 +1,40 @@
 #include <iostream>
-#include <cstdlib>
-#include <cstdio>
-#include <ctime>
 
 using namespace std;
 
 int main()
-{	
-	srand(time(NULL));
+{
+	string tab[10][10];
+	for(int i=0; i<10; i++)
+	{
+		for(int j=0; j<10; j++)
+		{
+			tab[i][j]="  ";
+		}
+	}
 	
 	int n;
 	cin >> n;
-	
-	string name[n];
-	string heroclass[n];
-	
 	for(int i=0; i<n; i++)
 	{
-		cin >> name[i];
+		int x, y;
+		cin >> x;
+		cin >> y;
+		tab[9-y][x]="*";
 	}
-	cout << n;
+
 	
-
-	for(int j=0; j<n; j++)
+	for(int i=0; i<10; i++)
 	{
-		cin >> heroclass[j];
-		cout <<j<<endl;
-	}
-
-	cout << n;
-
-	for(int i=0; i<n; i++)
-	{
-		cout << name[i] << "-";
-		int x;
-		do
+		for(int j=0; j<10; j++)
 		{
-			x=rand()%n;
+			cout<< tab[i][j];
 		}
-		while(heroclass[x]!="0");
-		
-		cout <<heroclass[x]<<endl;
-		heroclass[x]="0";
+		cout << endl;
 	}
 
+	
 	return 0;
 }
+
 
