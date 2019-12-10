@@ -66,8 +66,11 @@ class Board{
 
 
 int main(){
+	system("stty raw opost");
 	Board board;
 	board.setship();
+	system("stty sane -brkint -imaxbel iutf8");
+
 	return 0;	
 }
 
