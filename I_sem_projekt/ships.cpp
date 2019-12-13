@@ -65,9 +65,12 @@ class Board{
 					else r--;
 					break;
 				case 13:	//enter
-					for(int i=0; i<size; i++) board[m+i][n]=cpmap[m][n+i];
+					if(this->checksetships(size, m, n, r)==true){
+						for(int i=0; i<size; i++) board[m][n+i]=cpmap[m][n+i];
+						key='q';
+        		                }
 					break;
-        	                }
+				}
 			}
 			else{
 				for(int i=0; i<size; i++) cpmap[m+i][n]='M';
@@ -96,13 +99,63 @@ class Board{
 					else r--;
 					break;
 				case 13:	//enter
-					for(int i=0; i<size; i++) board[m+i][n]=cpmap[m+i][n];
-					key='q';
+					if(this->checksetships(size, m, n, r)==true){
+						for(int i=0; i<size; i++) board[m+i][n]=cpmap[m+i][n];
+						key='q';
+					}
+					break;
         	                }
 			}
                 }
-                while(key!='q' && key!=13);
+                while(key!='q');
         }
+
+	bool checksetships(int size, int y, int x, int r){
+		bool okey=true;
+		if(r==0){
+			for (int i=-1; i<size+1; i++){
+				if(board[y-1][x+i]!='M' && okey==true);
+				else{
+					okey=false;
+				}
+			}
+			for (int i=-1; i<size+1; i++){
+				if(board[y][x+i]!='M' && okey==true);
+				else{
+					okey=false;
+				}
+			}
+			for (int i=-1; i<size+1; i++){
+				if(board[y+1][x+i]!='M' && okey==true);
+				else{
+					okey=false;
+				}
+			}
+		}
+		else{
+			for (int i=-1; i<size+1; i++){
+				if(board[y+i][x-1]!='M' && okey==true);
+				else{
+					okey=false;
+				}
+			}
+			for (int i=-1; i<size+1; i++){
+				if(board[y+i][x]!='M' && okey==true);
+				else{
+					okey=false;
+				}
+			}
+			for (int i=-1; i<size+1; i++){
+				if(board[y+i][x+1]!='M' && okey==true);
+				else{
+					okey=false;
+				}
+			}
+
+		}
+		return okey;
+
+	}
 
 
 
