@@ -9,8 +9,8 @@ public:
   //void change(char x, int m, int n);
   //void print(int m, int n);
   void draw();
-  //string stringtoboard();
   string boardtostring();
+  void stringtoboard(string x);
   void shot();
   void setships(int size);
   bool checksetships(int size, int y, int x, int r);

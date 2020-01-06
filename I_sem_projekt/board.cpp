@@ -1,11 +1,12 @@
 #include <iostream>
-//#include <string>
+#include <fstream>
 #include "board.hpp"
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::fstream;
 
 Board::Board(){
   for(int m=0; m<10; m++){
@@ -16,8 +17,8 @@ Board::Board(){
 }
 /*void Board::change(char x, int m, int n){
   board[m][n]=x;
-}
-void Board::print(int m, int n){
+  }
+  void Board::print(int m, int n){
   cout << board[m][n];
   }*/
 void Board::draw(){
@@ -36,11 +37,11 @@ string Board::boardtostring(){
   return x;
 }
 
-/*void Board::stringtoboard(string x){
+void Board::stringtoboard(string x){
   for(int i=0; i<100; i++){
-    board[i/10][i%10]=x;
+    board[i/10][i%10]=x[i];
   }
-  }*/
+}
 
 
 
@@ -73,8 +74,8 @@ void Board::shot(){
       break;
     case 13:        //enter
       //if(pudło){
-	board[m][n]='o';
-	//}
+      board[m][n]='o';
+      //}
       //elseif(trafiony)
       //  elseif(trafione zatop)
         
@@ -83,7 +84,14 @@ void Board::shot(){
     }
   }
   while(key!='q');
-  //player << this->boardtostring();
+  
+  fstream shipstmp;
+  shipstmp.open( ".shipstmp", std::ios::in | std::ios::out );
+  if( shipstmp.good() == true ){
+    //    cout << "Uzyskano dostep do pliku!" << endl;
+    shipstmp << this->boardtostring();
+  }
+  else {}//cout << "Dostep do pliku zostal zabroniony!" << endl;
 }
 
 void Board::setships(int size){
@@ -95,77 +103,63 @@ void Board::setships(int size){
   do{
     system("clear");
     for(int i=0; i<100; i++) cpmap[i/10][i%10]=board[i/10][i%10];
-    if(r==0){
-      for(int i=0; i<size; i++) cpmap[m][n+i]='M';
-      for(int i=0; i<100; i++){
-	cout << " " << cpmap[i/10][i%10];
-	if(i%10==9) cout << endl;
-      }
-      key=getchar();
-      switch(key){
-      case 'w':
-	if(m>0) m--;
-	break;
-      case 'a':
-	if(n>0) n--;
-	break;
-      case 's':
-	if(m<9) m++;
-	break;
-      case 'd':
-	if(n<(10-size)) n++;
-	break;
-      case 'r':
-	m=5;
-	n=5;
-	if(r==0) r++;
-	else r--;
-	break;
-      case 13:        //enter
-	if(this->checksetships(size, m, n, r)==true){
-	  for(int i=0; i<size; i++) board[m][n+i]=cpmap[m][n+i];
-	  key='q';
-	}
-	break;
-      }
+    for(int i=0; i<size; i++){
+      if(r==0) cpmap[m][n+i]='M';
+      else     cpmap[m+i][n]='M';
     }
-    else{
-      for(int i=0; i<size; i++) cpmap[m+i][n]='M';
-      for(int i=0; i<100; i++){
-	cout << " " << cpmap[i/10][i%10];
-	if(i%10==9) cout << endl;
+    for(int i=0; i<100; i++){
+      cout << " " << cpmap[i/10][i%10];
+      if(i%10==9) cout << endl;	
+    }
+    cout << "wasd - sterowanie" << endl;
+    cout << "r - obróć" << endl;
+    cout << "q - pomin" << endl;
+    cout << "Enter - zatwierdź" << endl;
+  
+    key=getchar();
+    switch(key){
+    case 'w':
+      if(m>0) m--;
+      break;
+    case 'a':
+      if(n>0) n--;
+      break;
+    case 's':
+      if(r==0){
+	if(m<9) m++;
       }
-      key=getchar();
-      switch(key){
-      case 'w':
-	if(m>0) m--;
-	break;
-      case 'a':
-	if(n>0) n--;
-	break;
-      case 's':
+      else {
 	if(m<(10-size)) m++;
-	break;
-      case 'd':
+      }
+      break;
+    case 'd':
+      if(r==0) {
+	if(n<(10-size)) n++;
+      }
+      else {
 	if(n<9) n++;
-	break;
-      case 'r':
-	m=5;
-	n=5;
-	if(r==0) r++;
-	else r--;
-	break;
-      case 13:        //enter
-	if(this->checksetships(size, m, n, r)==true){
-	  for(int i=0; i<size; i++) board[m+i][n]=cpmap[m+i][n];
-	  key='q';
+      }
+      break;
+    case 'r':
+      m=5;
+      n=5;
+      if(r==0) r++;
+      else r--;
+      break;
+    case 13:        //enter
+      if(this->checksetships(size, m, n, r)==true){
+	for(int i=0; i<size; i++){
+	  if(r==0) board[m][n+i]=cpmap[m][n+i];
+	  else     board[m+i][n]=cpmap[m+i][n];
 	}
+	key='q';
 	break;
       }
     }
   }
   while(key!='q');
 }
+
 bool Board::checksetships(int size, int y, int x, int r){
   bool okey=true;
   if(r==0){

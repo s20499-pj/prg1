@@ -1,64 +1,79 @@
 #include <iostream>
 #include "board.hpp"
-//#include "file.hpp"
 #include <fstream>
+#include <unistd.h>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::fstream;
 
+
 int main(){
   system("stty raw opost"); // zmiana stty 
-  Board board;
-  Board player;
-  Board enemy;
+  Board board; //plansza gracza
+  Board player;//pole w które strzela gracz
+  Board enemy; //pole w które strzela przeciwnik
 
-
+  string pathtoenemy; //ścieżka do pliku przeciwnika
+  cout << "Wpisz ścieżkę katalogu domowego przeciwnika" << endl;
+  pathtoenemy = "/home/s20499/nauka/prg1/I_sem_projekt/.enemy";
+  /*cin >> pathtoenemy;*/
   
   //dodawanie statków   
   board.setships(4);
-  /*board.setships(3);
-    board.setships(3);
-    board.setships(2);
-    board.setships(2);
-    board.setships(2);
-    board.setships(1);
-    board.setships(1);
-    board.setships(1);
-    board.setships(1);
+  board.setships(3);
 
-    WYŁĄCZONE DO TESTOW
-  */ 
-
-    //stworzenie pliku
+  //stworzenie pliku wymiany
   system("touch .shipstmp");
   system("chmod 744 .shipstmp");
-  fstream shipstmp;
-  shipstmp.open( ".shipstmp", std::ios::in | std::ios::out );
-  /*  if( shipstmp.good() == true )
-    {
-      cout << "Uzyskano dostep do pliku!" << endl;
-      shipstmp << player.boardtostring();
+  
+  // kto zaczyna
+  bool move;
+  fstream fenemy;
+  fenemy.open( pathtoenemy, std::ios::in );    
+  if(fenemy.good()==true) move=1;
+  else move=0;
+  fenemy.close();
+
+  //definicja ruchu przeciwnika
+  void enemymove(){
+    string estring = enemy.boardtostring();
+    string tmp;
+    bool endloop = 0;
+    do{
+      fenemy.open( pathtoenemy, std::ios::in );
+      getline(fenemy, tmp);
+      fenemy.close();
+      for(int i=0; i<100 ; i++){
+	if(estring[i]!=tmp[i]) endloop=1;
+      }
+      usleep(1000000);
     }
-    else cout << "Dostep do pliku zostal zabroniony!" << endl;*/
+    while(endloop==0);
+    enemy.stringtoboard(tmp);
+  }
+
+  //definicja ruchu gracza
+  void playermove(){
+    player.shot();
+  }
 
   
-  //zaczekanie na przeciwnika
-  //bitwa
-
+  //gra
   int licznik=0;
   do{
-    player.shot();
+    enemymove();
+    playermove();
     licznik++;
-    //czekaj na przeciwnika
+    //przeczytaj plik przeciwnika
+    //odpowiedz czy pudło czy trawił czy zniszczył
   }
   while(licznik<3);
-  
   //wynik
 
   //usunięcie plików
-  shipstmp.close();
+  //  shipstmp.close();
   //system("rm .shipstmp");
   
   // stty default
