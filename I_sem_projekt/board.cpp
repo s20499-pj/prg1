@@ -114,18 +114,17 @@ bool Board::checksetships(int size, int y, int x, int r){
   return empty_field;
 }
 
-
-/*void Board::shot(){
+void Board::shot(Board *my_board, Board *target_board){
   int m=5;
   int n=5;
   char key=' ';
   Board cpmap;
   do{
     system("clear");
-    this->draw();
+    my_board->draw();
     cout << endl;
     
-    for(int i=0; i<100; i++) cpmap.playground[i/10][i%10] = playground[i/10][i%10];
+    for(int i=0; i<100; i++) cpmap.playground[i/10][i%10] = target_board->playground[i/10][i%10];
     cpmap.playground[m][n].setIsShot(true);
     for(int i=0; i<100; i++){
       if(cpmap.playground[i/10][i%10].getIsShot()==true) cout << " X";
@@ -147,47 +146,7 @@ bool Board::checksetships(int size, int y, int x, int r){
       if(n<9) n++;
       break;
     case 13:        //enter
-      playground[m][n].setIsShot(true);
-      key='q';
-      break;
-    }
-  }
-  while(key!='q');
-}*/
-
-void shot(Board my_board, Board target_board){
-  int m=5;
-  int n=5;
-  char key=' ';
-  Board cpmap;
-  do{
-    system("clear");
-    my_board.draw();
-    cout << endl;
-    
-    for(int i=0; i<100; i++) cpmap.playground[i/10][i%10] = target_board.playground[i/10][i%10];
-    cpmap.playground[m][n].setIsShot(true);
-    for(int i=0; i<100; i++){
-      if(cpmap.playground[i/10][i%10].getIsShot()==true) cout << " X";
-      else cout << " ~";
-      if(i%10==9) cout << endl;
-    }
-    key=getchar();
-    switch(key){
-    case 'w':
-      if(m>0) m--;
-      break;
-    case 'a':
-      if(n>0) n--;
-      break;
-    case 's':
-      if(m<9) m++;
-      break;
-    case 'd':
-      if(n<9) n++;
-      break;
-    case 13:        //enter
-      target_board.playground[m][n].setIsShot(true);
+      target_board->playground[m][n].setIsShot(true);
       key='q';
       break;
     }

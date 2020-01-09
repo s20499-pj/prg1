@@ -5,18 +5,15 @@
 
 class Board{
 public:
-  int nrplayer;
   static const int BOARD_SIZE = 10;
   Board();
   Cell playground[BOARD_SIZE][BOARD_SIZE];
   void draw();
   void setships(int size);
   bool checksetships(int size, int y, int x, int r);
-  //void shot();
+  static void shot(Board *my_board, Board *target_board);
 
 };
-
-void shot(Board my_board, Board target_board);
 
 #endif
 
