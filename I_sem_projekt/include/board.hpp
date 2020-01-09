@@ -5,7 +5,6 @@
 
 class Board{
 public:
-  int nrplayer;
   static const int BOARD_SIZE = 10;
   Board();
   Cell playground[BOARD_SIZE][BOARD_SIZE];

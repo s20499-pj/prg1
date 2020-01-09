@@ -2,8 +2,8 @@
 #include "cell.hpp"
 
 Cell::Cell(){
-  bool IsShip = false;
-  bool IsShot = false;
+  this->IsShip = false;
+  this->IsShot = false;
 }
 
 bool Cell::getIsShip(){
