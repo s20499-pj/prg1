@@ -18,4 +18,3 @@ void checkdestroy(Board *, int m, int n);
 bool endgame(Board player);
 
 #endif
-

@@ -169,40 +169,40 @@ bool endgame(Board player){
 void checkdestroy(Board *target_board, int m, int n){
   bool destroy = true;
   Board oneship;
+  int i;
   
-  /*while (true){
-    int i=0;
+  i=0;
+  while (true){
     if(target_board->playground[m+i][n].getIsShip()==true){
       oneship.playground[m+i][n].setIsShip(true);
       i++;
     }
     else break;
   }
+  i=0;
   while (true){
-    int i=0;
     if(target_board->playground[m-i][n].getIsShip()==true){
       oneship.playground[m-i][n].setIsShip(true);
       i++;
-      }
+    }
     else break;
   }
+  i=0;
   while (true){
-    int i=0;
     if(target_board->playground[m][n+i].getIsShip()==true){
       oneship.playground[m][n+i].setIsShip(true);
       i++;
     }
     else break;
   }
+  i=0;
   while (true){
-    int i=0;
     if(target_board->playground[m][n-i].getIsShip()==true){
-      oneship.playground[m+i][n-i].setIsShip(true);
+      oneship.playground[m][n-i].setIsShip(true);
       i++;
     }
     else break;
-  }*/
-
+  }
 
   for (int i = 0; i < 10; i++){
     for (int j = 0; j < 10; j++){

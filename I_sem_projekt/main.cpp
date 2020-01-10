@@ -78,8 +78,6 @@ int main(){
     }
   }
 
-  // analiza ruchu - strzał czy celny i czy zniszczyl statek i czy koniec gry
-
   system("stty sane -brkint -imaxbel iutf8");
   wait=getchar();
   return 0;
