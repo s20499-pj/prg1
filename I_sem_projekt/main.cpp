@@ -62,19 +62,30 @@ int main(){
 
 
   while(true){
-    cout << "Ruch gracza A" << endl;
     Board::shot(&boardA, &boardB);
     if(endgame(boardB)==true){
       system("clear");
       cout << endl << "Gracz pierwszy wygrał";
       break;
     }
-    cout << "Ruch gracza B" << endl;
+    while(true){
+      system("clear");
+    cout << "Ruch gracza B, naciśnij enter" << endl;
+    wait=getchar();
+    if(wait==13) break;
+    }
+
     Board::shot(&boardB, &boardA);
     if(endgame(boardA)==true){
       system("clear");
       cout << endl << "Gracz drugi wygrał";
       break;
+    }
+    while(true){
+      system("clear");
+    cout << "Ruch gracza A, naciśnij enter" << endl;
+    wait=getchar();
+    if(wait==13) break;
     }
   }
 
