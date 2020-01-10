@@ -14,6 +14,8 @@ public:
   static void shot(Board *my_board, Board *target_board);
 
 };
+void checkdestroy(Board *, int m, int n);
+bool endgame(Board player);
 
 #endif
 

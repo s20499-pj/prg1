@@ -147,9 +147,82 @@ void Board::shot(Board *my_board, Board *target_board){
       break;
     case 13:        //enter
       target_board->playground[m][n].setIsShot(true);
+      //sprawdź czy statek jest zniszczony
+      if(target_board->playground[m][n].getIsShip()==true) checkdestroy(target_board, m, n);
       key='q';
       break;
     }
   }
   while(key!='q');
+}
+
+bool endgame(Board player){
+  bool end = true;
+  for (int i = 0; i < 10; i++){
+    for (int j = 0; j < 10; j++){ //jeżeli znajduje choć jeden statek niezestrzelony gra toczy się dalej
+      if(player.playground[i][j].getIsShip()==true && player.playground[i][j].getIsShot()==false) end=false;
+    }
+  }
+  return end;
+}
+
+void checkdestroy(Board *target_board, int m, int n){
+  bool destroy = true;
+  Board oneship;
+  
+  /*while (true){
+    int i=0;
+    if(target_board->playground[m+i][n].getIsShip()==true){
+      oneship.playground[m+i][n].setIsShip(true);
+      i++;
+    }
+    else break;
+  }
+  while (true){
+    int i=0;
+    if(target_board->playground[m-i][n].getIsShip()==true){
+      oneship.playground[m-i][n].setIsShip(true);
+      i++;
+      }
+    else break;
+  }
+  while (true){
+    int i=0;
+    if(target_board->playground[m][n+i].getIsShip()==true){
+      oneship.playground[m][n+i].setIsShip(true);
+      i++;
+    }
+    else break;
+  }
+  while (true){
+    int i=0;
+    if(target_board->playground[m][n-i].getIsShip()==true){
+      oneship.playground[m+i][n-i].setIsShip(true);
+      i++;
+    }
+    else break;
+  }*/
+
+
+  for (int i = 0; i < 10; i++){
+    for (int j = 0; j < 10; j++){
+      if (oneship.playground[i][j].getIsShot()==false) destroy==false;     
+    }
+  }
+  if(destroy==true){
+    for (int i = 0; i < 10; i++){
+      for (int j = 0; j < 10; j++){
+        if(oneship.playground[i][j].getIsShip()==true){
+          target_board->playground[i+1][j].setIsShot(true);
+          target_board->playground[i+1][j+1].setIsShot(true);
+          target_board->playground[i+1][j-1].setIsShot(true);
+          target_board->playground[i][j+1].setIsShot(true);
+          target_board->playground[i][j-1].setIsShot(true);
+          target_board->playground[i-1][j+1].setIsShot(true);
+          target_board->playground[i-1][j].setIsShot(true);
+          target_board->playground[i-1][j-1].setIsShot(true);
+        }
+      }
+    }
+  }
 }
