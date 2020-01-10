@@ -18,8 +18,10 @@ Board::Board(){
 void Board::draw(){
   for(int i=0; i<10; i++){
     for(int j=0; j<10; j++){
-      if(playground[i][j].getIsShip()==true) cout << " " << "M";
-      else cout << " " << "~";
+      if(playground[i][j].getIsShip()==true && playground[i][j].getIsShot()==true) cout << " " << "X";
+      else if(playground[i][j].getIsShip()==true && playground[i][j].getIsShot()==false) cout << " " << "M";
+      else if(playground[i][j].getIsShip()==false && playground[i][j].getIsShot()==true) cout << " " << "o";
+      else if(playground[i][j].getIsShip()==false && playground[i][j].getIsShot()==false) cout << " " << "~";
     }
     cout << endl;
   }
@@ -124,12 +126,21 @@ void Board::shot(Board *my_board, Board *target_board){
     my_board->draw();
     cout << endl;
     
-    for(int i=0; i<100; i++) cpmap.playground[i/10][i%10] = target_board->playground[i/10][i%10];
-    cpmap.playground[m][n].setIsShot(true);
     for(int i=0; i<100; i++){
-      if(cpmap.playground[i/10][i%10].getIsShot()==true) cout << " X";
-      else cout << " ~";
-      if(i%10==9) cout << endl;
+      if(target_board->playground[i/10][i%10].getIsShot()==true)cpmap.playground[i/10][i%10].setIsShot(true);
+      cpmap.playground[m][n].setIsShot(true);
+    }
+    for(int i=0; i<100; i++){
+      if (m==i/10 && n==i%10){
+        cout << " 0";
+        }
+      else{
+        if (target_board->playground[i/10][i%10].getIsShot()==false) cout << " ~";
+        else if(target_board->playground[i/10][i%10].getIsShot()==true && target_board->playground[i/10][i%10].getIsShip()==true) cout << " X";
+        else if (target_board->playground[i/10][i%10].getIsShot()==true && target_board->playground[i/10][i%10].getIsShip()==false) cout << " o";
+        else cout << "Er";
+        }
+        if(i%10==9) cout << endl;
     }
     key=getchar();
     switch(key){
@@ -174,7 +185,7 @@ void checkdestroy(Board *target_board, int m, int n){
   i=0;
   while (true){
     if(target_board->playground[m+i][n].getIsShip()==true){
-      oneship.playground[m+i][n].setIsShip(true);
+      oneship.playground[m+i][n]=target_board->playground[m+i][n];
       i++;
     }
     else break;
@@ -182,7 +193,7 @@ void checkdestroy(Board *target_board, int m, int n){
   i=0;
   while (true){
     if(target_board->playground[m-i][n].getIsShip()==true){
-      oneship.playground[m-i][n].setIsShip(true);
+      oneship.playground[m-i][n]=target_board->playground[m-i][n];
       i++;
     }
     else break;
@@ -190,7 +201,7 @@ void checkdestroy(Board *target_board, int m, int n){
   i=0;
   while (true){
     if(target_board->playground[m][n+i].getIsShip()==true){
-      oneship.playground[m][n+i].setIsShip(true);
+      oneship.playground[m][n+i]=target_board->playground[m][n+i];
       i++;
     }
     else break;
@@ -198,7 +209,7 @@ void checkdestroy(Board *target_board, int m, int n){
   i=0;
   while (true){
     if(target_board->playground[m][n-i].getIsShip()==true){
-      oneship.playground[m][n-i].setIsShip(true);
+      oneship.playground[m][n-i]=target_board->playground[m][n-i];
       i++;
     }
     else break;
@@ -206,7 +217,9 @@ void checkdestroy(Board *target_board, int m, int n){
 
   for (int i = 0; i < 10; i++){
     for (int j = 0; j < 10; j++){
-      if (oneship.playground[i][j].getIsShot()==false) destroy==false;     
+      if (oneship.playground[i][j].getIsShip()==true && oneship.playground[i][j].getIsShot()==false){
+        destroy=false;
+      }
     }
   }
   if(destroy==true){
