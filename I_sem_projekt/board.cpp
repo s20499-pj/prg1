@@ -97,16 +97,16 @@ bool Board::checksetships(int size, int y, int x, int r){
   bool empty_field=true;
   if(empty_field==true){    
     for (int i=-1; i<size+1; i++){
-      if(y>=0 || x>=0 || y<10 || y<10){
+      if(y>=0 || x>=0 || x<10 || y<10){
 	if(r==0){
-	  if(playground[y-1][x+i].getIsShip()==true) empty_field=false;
-	  if(playground[y][x+i].getIsShip()==true) empty_field=false;
-	  if(playground[y+1][x+i].getIsShip()==true) empty_field=false;
+	  if(playground[y-1][x+i].getIsShip()==true && (y-1>=0 && x+i>=0 && x+i<10 && y-1<10)) empty_field=false;
+	  if(playground[y][x+i].getIsShip()==true && (y>=0 && x+i>=0 && x+i<10 && y<10)) empty_field=false;
+	  if(playground[y+1][x+i].getIsShip()==true && (y+1>=0 && x+i>=0 && x+i<10 && y+1<10)) empty_field=false;
 	}
 	else{
-	  if(playground[y+i][x-1].getIsShip()==true) empty_field=false;
-	  if(playground[y+i][x].getIsShip()==true) empty_field=false;
-	  if(playground[y+i][x+1].getIsShip()==true) empty_field=false;
+	  if(playground[y+i][x-1].getIsShip()==true && (y+i>=0 && x-1>=0 && x-1<10 && y+i<10)) empty_field=false;
+	  if(playground[y+i][x].getIsShip()==true && (y+i>=0 && x>=0 && x<10 && y+i<10)) empty_field=false;
+	  if(playground[y+i][x+1].getIsShip()==true && (y+i>=0 && x+1>=0 && x+1<10 && y+i<10)) empty_field=false;
 	}
       }
       else ;
@@ -157,10 +157,12 @@ void Board::shot(Board *my_board, Board *target_board){
       if(n<9) n++;
       break;
     case 13:        //enter
-      target_board->playground[m][n].setIsShot(true);
+      if(target_board->playground[m][n].getIsShot()==false){
+        target_board->playground[m][n].setIsShot(true);
       //sprawdź czy statek jest zniszczony
       if(target_board->playground[m][n].getIsShip()==true) checkdestroy(target_board, m, n);
       key='q';
+      }
       break;
     }
   }
@@ -226,14 +228,14 @@ void checkdestroy(Board *target_board, int m, int n){
     for (int i = 0; i < 10; i++){
       for (int j = 0; j < 10; j++){
         if(oneship.playground[i][j].getIsShip()==true){
-          target_board->playground[i+1][j].setIsShot(true);
-          target_board->playground[i+1][j+1].setIsShot(true);
-          target_board->playground[i+1][j-1].setIsShot(true);
-          target_board->playground[i][j+1].setIsShot(true);
-          target_board->playground[i][j-1].setIsShot(true);
-          target_board->playground[i-1][j+1].setIsShot(true);
-          target_board->playground[i-1][j].setIsShot(true);
-          target_board->playground[i-1][j-1].setIsShot(true);
+          if(i+1>=0 && i+1<10 && j >=0 && j<10) target_board->playground[i+1][j].setIsShot(true);
+          if(i+1>=0 && i+1<10 && j+1>=0 && j+1<10) target_board->playground[i+1][j+1].setIsShot(true);
+          if(i+1>=0 && i+1<10 && j-1>=0 && j-1<10) target_board->playground[i+1][j-1].setIsShot(true);
+          if(i>=0 && i<10 && j+1>=0 && j+1<10) target_board->playground[i][j+1].setIsShot(true);
+          if(i>=0 && i<10 && j-1>=0 && j-1<10) target_board->playground[i][j-1].setIsShot(true);
+          if(i-1>=0 && i-1<10 && j+1>=0 && j+1<10) target_board->playground[i-1][j+1].setIsShot(true);
+          if(i-1>=0 && i-1<10 && j >=0 && j<10) target_board->playground[i-1][j].setIsShot(true);
+          if(i-1>=0 && i-1<10 && j-1>=0 && j-1<10) target_board->playground[i-1][j-1].setIsShot(true);
         }
       }
     }
